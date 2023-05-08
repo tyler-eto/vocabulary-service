@@ -19,8 +19,14 @@ python server.py
 
 
 ## How to REQUEST data
-Example in python:
+Example in python using zmq library:
 1. First connect to socket at "tcp://localhost:5555"
+```python
+>>> import zmq
+>>> context = zmq.Context()
+>>> client = context.socket(zmq.REQ)
+>>> client.connect("tcp://localhost:5555")
+```
 2. Send a request for a week's vocabulary words in the following format, encoded in utf-8
 ```python
 >>> message = "week01".encode('utf-8')
