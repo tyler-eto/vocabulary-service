@@ -16,15 +16,15 @@ def file_path_exists(file_path):
 
 def main():
     context = zmq.Context()
-    socket = context.socket(zmq.REP)
-    socket.bind("tcp://*:{port}".format(port=PORT))
+    server = context.socket(zmq.REP)
+    server.bind("tcp://*:{port}".format(port=PORT))
     print("VocabularyService now available at tcp port {p}...".format(p=PORT))
 
     # enter server loop
     while True:
         try:
             #  Wait for next request from client
-            message = socket.recv()
+            message = server.recv()
             file_name = message.decode(ENCODING) + '.txt'
             print("Received request for {m} vocabulary".format(m=message))
 
@@ -32,7 +32,7 @@ def main():
             file_path = os.path.join(VOCAB_DIRECTORY, file_name)
             if not file_path_exists(file_path):
                 print("--{} NOT FOUND. Sending back empty message".format(file_name))
-                socket.send(b"")
+                server.send(b"")
                 continue
 
             print("--{} FOUND!".format(file_name))
@@ -41,7 +41,7 @@ def main():
             with open(file_path, 'rb') as fi:
                 message = fi.read()
                 print("--Sending following message to client: {}\n".format(message))
-                socket.send(message)
+                server.send(message)
         except KeyboardInterrupt:
             print("Got Ctrl-C. Shutting down.")
             break
