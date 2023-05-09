@@ -10,6 +10,7 @@ pip install -r requirements.txt
 
 
 ## Usage
+Service is meant to be run locally. User can define service by editing PORT variable in server.py. User can define vocabulary file directory by editing VOCAB_DIRECTORY variable in server.py. Weekly files are expected to be comma-separated .txt files.
 ```python
 # inside your python3 virtual environment
 python server.py

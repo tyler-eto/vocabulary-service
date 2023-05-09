@@ -20,13 +20,15 @@ def main():
     for week in ["week01", "week03", "week05"]:
         print('Attempting to get vocabulary words for "{w}"'.format(w=week))
         time.sleep(2)  # wait a bit to watch it go
+        print('--Sending "{}"'.format(week))
         client.send(week.encode(ENCODING))
 
         # read contents
         contents = client.recv()
         if contents:
+            print('--Received response')
             vocabulary_list = contents.decode(ENCODING).split(',')
-            print("\tVocabulary for {w}: {v}".format(w=week, v=vocabulary_list))
+            print("--Vocabulary for {w}: {v}".format(w=week, v=vocabulary_list))
         time.sleep(1)
 
 
